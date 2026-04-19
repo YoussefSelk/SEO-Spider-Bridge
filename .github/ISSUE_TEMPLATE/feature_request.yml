@@ -13,7 +13,7 @@ body:
     attributes:
       label: Problem statement
       description: What user or business problem are we solving?
-      placeholder: Freemium users cannot understand when they are close to quota limits.
+      placeholder: Customers cannot self-serve activation troubleshooting during onboarding.
     validations:
       required: true
   - type: textarea
@@ -21,7 +21,7 @@ body:
     attributes:
       label: Proposed solution
       description: Describe expected behavior and user flow.
-      placeholder: Add usage warning headers and dashboard threshold alerts.
+      placeholder: Add an activation diagnostics page with entitlement and machine status.
     validations:
       required: true
   - type: textarea
@@ -34,11 +34,12 @@ body:
     attributes:
       label: Primary area
       options:
-        - Middleware
-        - Renderer API
-        - Cache and invalidation
-        - Dashboard and analytics
-        - Billing and plan management
+        - Control Plane API
+        - Dashboard (Customer/Admin)
+        - Licensing and Activations
+        - Engine Runtime
+        - Cache and Datastore Adapter
+        - Billing and Plan Management
         - Documentation
     validations:
       required: true

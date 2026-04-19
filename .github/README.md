@@ -2,7 +2,10 @@
 
 ## Purpose
 
-This `.github` folder contains the execution-facing documentation for building and operating the SEO-Spider-Bridge MVP.  
+This `.github` folder contains the execution-facing documentation for building and operating SEO-Spider-Bridge using the new strategy:
+
+> self-hosted licensed engine + lightweight cloud control plane
+
 The goal is to give engineers one place to answer:
 
 - What are we building?
@@ -13,9 +16,10 @@ The goal is to give engineers one place to answer:
 
 ## Document Map
 
+- [`docs/SELF_HOSTED_SAAS_ROADMAP.md`](docs/SELF_HOSTED_SAAS_ROADMAP.md): Canonical implementation strategy (stack, phases A-J, exact build order).
 - [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md): Product framing, 2026 problem context, ICP, value proposition, SaaS tier model, non-goals.
-- [`docs/SYSTEM_ARCHITECTURE.md`](docs/SYSTEM_ARCHITECTURE.md): End-to-end flow, bot detection, renderer pipeline, cache model, SaaS plan enforcement, edge deployment model, and public interfaces.
-- [`docs/MVP_ROADMAP_KPIS.md`](docs/MVP_ROADMAP_KPIS.md): Phase-by-phase delivery plan, acceptance criteria, technical KPI targets, and SaaS commercial KPI measurement methods.
+- [`docs/SYSTEM_ARCHITECTURE.md`](docs/SYSTEM_ARCHITECTURE.md): Control plane + engine architecture, activation/entitlement protocol, runtime request flow, and API contracts.
+- [`docs/MVP_ROADMAP_KPIS.md`](docs/MVP_ROADMAP_KPIS.md): Execution phases, acceptance gates, and technical/commercial KPI model aligned to self-hosted delivery.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): Branching, PR quality bar, and documentation update policy.
 - [`PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md): PR structure and quality checklist.
 - [`ISSUE_TEMPLATE/`](ISSUE_TEMPLATE): Bug and feature issue forms.
@@ -29,7 +33,7 @@ The goal is to give engineers one place to answer:
 ## Update Ownership
 
 - Product + architecture source intent owner: Tech Lead / Project Owner.
-- API and middleware contract owner: Backend Lead.
+- Control-plane API and engine contract owner: Backend Lead.
 - KPI definition and measurement owner: Product + Data/Analytics owner.
 - Contribution and process policy owner: Repo Maintainers.
 
@@ -37,18 +41,15 @@ When ownership is unclear, default to the maintainer who merges the related PR.
 
 ## How To Use This Folder
 
-1. Start with `docs/PROJECT_OVERVIEW.md` to understand the problem and scope boundaries.
-2. Move to `docs/SYSTEM_ARCHITECTURE.md` before writing implementation code.
-3. Use `docs/MVP_ROADMAP_KPIS.md` to plan sprint deliverables and define release gates.
-4. Follow `CONTRIBUTING.md` for branch and PR expectations.
-5. Use issue/PR templates so triage and reviews stay consistent from day one.
+1. Start with `docs/SELF_HOSTED_SAAS_ROADMAP.md` for the canonical strategy and build sequence.
+2. Read `docs/PROJECT_OVERVIEW.md` for scope boundaries and product positioning.
+3. Read `docs/SYSTEM_ARCHITECTURE.md` before implementing API, engine, or activation logic.
+4. Use `docs/MVP_ROADMAP_KPIS.md` for sprint planning and phase gates.
+5. Follow `CONTRIBUTING.md` and templates to keep changes reviewable and docs-synced.
 
-## Traceability Map (Topic.md -> Docs)
+## Traceability Map
 
-- Executive Summary -> `docs/PROJECT_OVERVIEW.md`
-- Problematique (2026 Context) -> `docs/PROJECT_OVERVIEW.md`
-- Technical Requirements (Stack + Features) -> `docs/SYSTEM_ARCHITECTURE.md`
-- System Logic & User Flow -> `docs/SYSTEM_ARCHITECTURE.md`
-- Development Roadmap (MVP) -> `docs/MVP_ROADMAP_KPIS.md`
-- Target Audience (ICP) -> `docs/PROJECT_OVERVIEW.md`
-- Success Metrics -> `docs/MVP_ROADMAP_KPIS.md`
+- `Topic.md` original concept and problem framing -> `docs/PROJECT_OVERVIEW.md`
+- New self-hosted strategy and exact implementation order -> `docs/SELF_HOSTED_SAAS_ROADMAP.md`
+- Runtime and control-plane technical contracts -> `docs/SYSTEM_ARCHITECTURE.md`
+- Execution gates and KPI model -> `docs/MVP_ROADMAP_KPIS.md`

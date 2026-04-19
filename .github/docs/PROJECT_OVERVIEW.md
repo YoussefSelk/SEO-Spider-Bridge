@@ -1,86 +1,84 @@
 # Project Overview
 
-## Executive Summary
+## Product Statement
 
-SEO-Spider-Bridge is a middleware service that solves JavaScript SEO gaps for SPA websites (React, Angular, Vue).  
-It detects search bots and AI crawlers, serves them pre-rendered static HTML, and leaves human traffic on the normal client-side app path.
+SEO-Spider-Bridge is a JavaScript SEO engine for SPA websites (React, Angular, Vue) delivered with a dual model:
 
-Core business value:
+- A **self-hosted engine** customers run on their own infrastructure.
+- A **cloud control plane** you operate for auth, licensing, activations, and admin management.
 
-- Faster indexability for JS-heavy pages.
-- Better crawl visibility for AI agents that do not execute JavaScript.
-- Lower migration pressure for legacy client-side-only applications.
+This keeps runtime cost on customer infrastructure while preserving monetization through Freemium/Premium licensing.
 
-## Infrastructure Direction (No Redis)
+## Problem Context (2026)
 
-The project does not require Redis for MVP.  
-Caching and usage metering are backed by a datastore adapter using:
+### JS Rendering Gap
 
-- MongoDB (recommended MVP default).
-- Supabase Postgres (supported alternative).
+Search indexing for JS-heavy pages can still lag due to delayed rendering/indexing behavior.
 
-For strict cost control, prioritize self-hosted open-source deployments to keep infrastructure free of mandatory paid dependencies.
+### AI Crawler Constraints
 
-## Business Model (SaaS)
+AI crawlers frequently avoid full JavaScript execution, causing weak visibility for client-rendered content.
 
-SEO-Spider-Bridge is positioned as a SaaS product with two tiers:
+### Legacy App Constraints
 
-- `Freemium`: Low-friction onboarding for smaller sites and evaluation.
-- `Premium`: Production-grade capacity, controls, and support for revenue-critical traffic.
+Many teams cannot migrate quickly to SSR-first architecture and need an operational bridge now.
 
-### Initial Tier Boundaries (v1 defaults)
+## Strategy Direction
+
+### Deployment Model
+
+- Customer deploys engine with Docker on their host.
+- Engine handles rendering/runtime locally.
+- Engine activates and revalidates entitlement against your control-plane API.
+
+### Business Model
+
+- `Freemium`: low-friction onboarding with limited quota/features.
+- `Premium`: higher limits, advanced controls, priority support.
+
+## Tier Model (v1 Defaults)
 
 | Capability | Freemium | Premium |
 | --- | --- | --- |
-| Monthly rendered requests | Up to 10,000 | Up to 500,000 (expandable) |
-| Connected domains | 1 | Up to 10 |
-| Output formats | HTML only | HTML + Markdown |
-| Cache invalidation | TTL only | TTL + webhook purge |
-| Analytics retention | 7 days | 90 days |
-| Support model | Best effort | Priority support |
+| Monthly render events | Up to 10,000 | Up to 500,000 (expandable) |
+| Connected projects/domains | 1 | Up to 10 |
+| Output modes | HTML | HTML + Markdown |
+| Activation refresh policy | Standard | Standard + configurable grace |
+| Invalidation controls | TTL only | TTL + webhook purge |
+| Support | Best effort | Priority |
 
-These defaults provide a clear upgrade path while keeping entry barriers low.
+## Infrastructure Principles
 
-## 2026 Problem Context
+- No mandatory Redis dependency.
+- Engine cache backend can use MongoDB or Supabase/Postgres adapter.
+- Control plane source-of-truth remains PostgreSQL + Prisma.
+- For strict "free forever" control, self-host open-source components.
 
-### Rendering Gap
+## Ideal Customer Profile
 
-Googlebot still exhibits two-wave indexing behavior for JavaScript-heavy pages, creating indexing delays that can range from days to weeks.
+- E-commerce teams with SPA storefronts.
+- B2B SaaS teams shipping marketing/docs on client-rendered stacks.
+- Legacy enterprise frontend teams blocked from full platform migration.
 
-### AI Accessibility (GEO)
+## MVP Scope
 
-Modern AI crawlers often avoid full JS execution for cost and speed reasons. Pages that require client-side rendering are at risk of being ignored or partially understood.
+MVP outcome:
 
-### Legacy Architecture Debt
+> User signs up, receives license, deploys engine, activates successfully, and appears as active in dashboard with revocation/monitoring controls for admins.
 
-Large enterprise SPAs cannot always be migrated quickly to SSR/ISR frameworks. Teams need a bridge solution that works without full platform rewrites.
+Included in MVP:
 
-## Ideal Customer Profile (ICP)
+- Account auth and session management
+- Project + license lifecycle
+- Activation protocol with signed entitlements
+- Engine runtime with local entitlement cache and `/health`
+- Admin visibility for licenses, activations, machines, and audit logs
 
-### E-commerce
+## Non-Goals (Pre-MVP)
 
-Headless commerce deployments where product/category pages are client-rendered.
-
-### B2B SaaS
-
-Marketing and documentation surfaces shipped as SPA frontends with limited server rendering.
-
-### Legacy Enterprises
-
-Large Angular/Vue estates where replatforming is costly or blocked by long release cycles.
-
-## Value Proposition
-
-- SEO continuity without replacing frontend architecture.
-- Bot-first static output while preserving human SPA experience.
-- Better probability of AI answer inclusion through crawlable content.
-- Performance-aware caching that reduces repeated rendering cost.
-- Freemium to Premium growth path aligned with crawl volume and reliability needs.
-
-## Non-Goals (MVP)
-
-- Replacing customer origin hosting or CDN.
-- Full website analytics platform.
-- Full observability suite with custom dashboards beyond MVP signals.
-- Enterprise custom contracts, annual invoicing, and advanced finance workflows.
-- Complete content optimization tooling (keyword tooling, editorial automation).
+- SSO, social auth, enterprise identity integrations
+- Multi-region control-plane architecture
+- Fully automated billing and invoicing stack
+- Advanced anti-tamper systems
+- Marketplace/plugin ecosystem
+- Pixel-perfect dashboard polish before functional completion

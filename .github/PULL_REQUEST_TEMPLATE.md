@@ -30,9 +30,11 @@ Describe what you ran and the result.
 - [ ] Freemium behavior changed
 - [ ] Premium behavior changed
 - [ ] Quota/metering/billing behavior changed
+- [ ] License/activation protocol changed
 
 If any tier behavior changed, link the documentation updates:
 
+- [ ] `.github/docs/SELF_HOSTED_SAAS_ROADMAP.md`
 - [ ] `.github/docs/PROJECT_OVERVIEW.md`
 - [ ] `.github/docs/SYSTEM_ARCHITECTURE.md`
 - [ ] `.github/docs/MVP_ROADMAP_KPIS.md`

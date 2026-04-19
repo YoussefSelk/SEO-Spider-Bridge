@@ -13,7 +13,7 @@ body:
     attributes:
       label: Short summary
       description: One-sentence description of the bug.
-      placeholder: Bot traffic intermittently bypasses cache for identical URLs.
+      placeholder: Engine activation fails after a valid license is issued.
     validations:
       required: true
   - type: textarea
@@ -22,23 +22,23 @@ body:
       label: Steps to reproduce
       description: Include exact steps, request samples, and relevant config.
       placeholder: |
-        1. Configure middleware with MongoDB or Supabase cache backend
-        2. Send request with user-agent Googlebot
-        3. Observe response headers on second request
+        1. Deploy engine with Docker and set LICENSE_KEY/PROJECT_ID
+        2. Start engine and call activation flow
+        3. Observe activation response and engine logs
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
       label: Expected behavior
-      placeholder: Second request should return x-spiderbridge-cache: hit.
+      placeholder: Engine should verify entitlement and report active status.
     validations:
       required: true
   - type: textarea
     id: actual
     attributes:
       label: Actual behavior
-      placeholder: Second request returns x-spiderbridge-cache: miss and triggers render.
+      placeholder: Activation returns 403 and engine remains in disabled mode.
     validations:
       required: true
   - type: textarea
@@ -46,7 +46,7 @@ body:
     attributes:
       label: Impact
       description: Describe user/business impact and severity.
-      placeholder: Causes bot TTFB regressions above SLA.
+      placeholder: Blocks onboarding for new customers and prevents paid usage.
     validations:
       required: true
   - type: dropdown

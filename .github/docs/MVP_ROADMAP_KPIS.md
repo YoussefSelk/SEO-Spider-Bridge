@@ -1,126 +1,178 @@
 # MVP Roadmap and KPIs
 
-## Phased Roadmap
+## Execution Roadmap (Strategy-Aligned)
 
-## Phase 1: Core Renderer API
+This roadmap follows the self-hosted licensed-engine strategy in `SELF_HOSTED_SAAS_ROADMAP.md`.
 
-### Deliverables
+## Phase A: Foundation
 
-- Renderer service with `POST /render`.
-- Headless browser navigation and DOM serialization.
-- `html` output mode and basic `markdown` output mode.
-- Standardized status/error model.
-- Tenant-aware request contract (`projectId`, API key auth).
+Deliverables:
 
-### Acceptance Criteria
+- `pnpm` workspace + Turborepo baseline
+- `apps/web`, `apps/api`, `packages/db`, `packages/shared` scaffolds
+- Local PostgreSQL + Prisma connectivity
 
-- Valid URL request returns rendered payload and metadata.
-- Timeout and invalid-input errors return the documented error shape.
-- Render success rate meets baseline in staging (>= 95% on curated test URLs).
-- Unauthorized and plan-restricted requests return explicit status codes.
+Acceptance gate:
 
-## Phase 2: Plug-and-Play Middleware
+- Web and API boot locally
+- Prisma migrations run from clean state
 
-### Deliverables
+## Phase B: Core Data Model
 
-- Middleware integration snippets for Express.js, Nginx, and Apache.
-- Deterministic bot detection module.
-- Datastore-backed cache read/write and TTL behavior (MongoDB or Supabase).
-- Plan-aware entitlement checks for output mode and invalidation capabilities.
+Deliverables:
 
-### Acceptance Criteria
+- Prisma models and migrations for users/sessions/orgs/plans/licenses/machines/activations/projects/audit logs
+- Seed data for minimum plan set (freemium, premium)
 
-- Human traffic is unchanged versus origin baseline.
-- Bot traffic receives rendered static output on cache hit/miss path.
-- Cache hit path is measurably faster than render path for identical URL/format.
-- Freemium and Premium paths enforce intended feature boundaries.
+Acceptance gate:
 
-## Phase 3: Monitoring Dashboard and Manual Cache Controls
+- Fresh database bootstraps with migrations and seeds
+- Create user/org/license path works from script
 
-### Deliverables
+## Phase C: Auth v1
 
-- Dashboard views for crawl/render success signals.
-- Manual cache purge controls (URL and prefix scope).
-- Basic audit trail for purge actions.
-- Usage and quota panels by plan tier (freemium vs premium).
+Deliverables:
 
-### Acceptance Criteria
+- Register/login/logout/me endpoints
+- Server-side session storage and secure cookie behavior
+- Protected route middleware for dashboard/API
 
-- Operators can identify render failures by host/path.
-- Operators can purge stale pages without restarting services.
-- Dashboard reflects cache-hit and render-failure metrics in near real time.
-- Teams can verify per-project quota status and upgrade readiness.
+Acceptance gate:
 
-## Phase 4: Edge Deployment Optimization
+- Register/login/logout/me flow works end-to-end
+- Session revocation and expiration behavior validated
 
-### Deliverables
+## Phase D: Dashboard v1
 
-- Edge middleware deployment (Cloudflare Workers or Vercel-compatible edge routing).
-- Renderer service hardening for production load.
-- Latency and availability tuning for bot request path.
-- Plan policy enforcement at edge with predictable fallback behavior.
+Deliverables:
 
-### Acceptance Criteria
+- Functional pages: login, dashboard, projects, licenses, settings
+- Basic status cards for activations and license state
 
-- Edge decision + cache lookup path is stable under load.
-- Bot request TTFB meets target on cache-hit routes.
-- Graceful degradation exists for renderer outage scenarios.
-- Quota-exceeded handling is observable and does not break origin availability.
+Acceptance gate:
 
-## KPI Definitions and Targets
+- Logged-in user can navigate and view real project/license data
 
-## 1) Bot TTFB (Time to First Byte)
+## Phase E: License Management
 
-- Definition: Time from bot request ingress to first response byte for bot-classified requests.
-- Primary target: `< 500 ms` on cache-hit bot traffic.
-- Secondary target: P95 bot TTFB trend improves release-over-release.
+Deliverables:
 
-## 2) Index Latency
+- Admin license issuance and revocation endpoints
+- License listing and details view
+- Audit log entries for admin actions
 
-- Definition: Time from content publish/update to search engine discoverability for tracked pages.
-- Primary target: Reduce from multi-day baseline to `< 24 hours` for priority pages.
-- Measurement cohort: Fixed set of representative URLs across customer segments.
+Acceptance gate:
 
-## 3) AI Citation Rate
+- Team can issue and revoke a license and observe state changes
 
-- Definition: Share of tracked prompts where customer pages are cited or referenced by target AI answer engines.
-- Primary target: Positive growth from baseline after rollout; initial target `+30%` within first 90 days on tracked prompt set.
-- Note: Baseline must be captured before production rollout for valid comparison.
+## Phase F: Activation Protocol
 
-## 4) Free-to-Premium Conversion Rate
+Deliverables:
 
-- Definition: Percentage of active freemium projects upgraded to premium in a given month.
-- Primary target: `>= 8%` monthly conversion from qualified freemium projects.
-- Qualification baseline: Freemium projects with sustained quota pressure or repeated premium-only feature attempts.
+- Activation endpoint
+- Signed entitlement payload generation
+- Engine-side signature verification
 
-## 5) Freemium Activation Rate
+Acceptance gate:
 
-- Definition: Percentage of newly created freemium projects that successfully serve at least one bot-rendered response in first 7 days.
-- Primary target: `>= 60%` 7-day activation.
+- Engine only unlocks premium behavior with valid entitlement
 
-## KPI Measurement Method
+## Phase G: Engine Runtime + Docker
 
-- Bot TTFB:
-  - Measure at ingress/middleware layer.
-  - Record `decision`, `cache_state`, `ttfb_ms`, `host`, `path`.
-  - Report P50/P95 daily and weekly.
-- Index Latency:
-  - For each tracked URL, log `published_at` and first observed index timestamp.
-  - Report median and P90 latency by site segment.
-- AI Citation Rate:
-  - Maintain a stable prompt set and cadence (for example weekly).
-  - Record citation presence per prompt/source.
-  - Report citation rate and delta from pre-rollout baseline.
-- Free-to-Premium Conversion Rate:
-  - Track `plan_changed` events from `freemium` to `premium`.
-  - Report monthly conversion by segment (site type, traffic tier).
-- Freemium Activation Rate:
-  - Track first successful bot-render event timestamp per new freemium project.
-  - Report weekly and monthly activation percentages.
+Deliverables:
 
-## Release Gating for MVP Progression
+- Engine config loader
+- Local entitlement cache
+- Health endpoint
+- Docker multi-stage build and runtime image
 
-- Phase 1 -> Phase 2: Renderer API contract stable, staging success criteria met.
-- Phase 2 -> Phase 3: Middleware integration verified with bot/human path correctness.
-- Phase 3 -> Phase 4: Operational visibility and manual purge capabilities available.
-- MVP completion: At least one production deployment path with technical and commercial KPI collection enabled.
+Acceptance gate:
+
+- `docker build` and `docker run` pass
+- Activation succeeds in containerized run
+
+## Phase H: Grace and Revocation Behavior
+
+Deliverables:
+
+- Entitlement refresh scheduler
+- Grace-mode logic for transient API outages
+- Revoked/expired entitlement handling
+
+Acceptance gate:
+
+- Short control-plane outage does not instantly break valid customers
+- Revocation reliably disables premium path after refresh/grace window
+
+## Phase I: Admin Observability
+
+Deliverables:
+
+- Admin views for activations, machines, revocations, audit logs
+- Basic filtering by organization/license/project
+
+Acceptance gate:
+
+- Team can answer who activated what, when, and where
+
+## Phase J: Customer Onboarding
+
+Deliverables:
+
+- Installation guide
+- `.env` template
+- Docker run/compose examples
+- Troubleshooting and activation-status playbook
+
+Acceptance gate:
+
+- Technical user can deploy and activate without live onboarding call
+
+## KPI Model
+
+## Technical KPIs
+
+1. Activation Success Rate
+- Definition: successful activations / attempted activations.
+- Target: `>= 98%` in staging/production healthy windows.
+
+2. Entitlement Refresh Reliability
+- Definition: successful refresh attempts / total scheduled refresh attempts.
+- Target: `>= 99%` excluding declared incident windows.
+
+3. Engine Availability (`/health`)
+- Definition: percentage of health checks passing over time.
+- Target: `>= 99.5%` for production customer deployments (where monitored).
+
+4. Bot TTFB on Cache Hit
+- Definition: TTFB for bot-path responses served from cache.
+- Target: `< 500 ms` median on representative workloads.
+
+## Commercial KPIs
+
+1. Freemium Activation Rate
+- Definition: percentage of newly created freemium projects with first successful engine activation in 7 days.
+- Target: `>= 60%`.
+
+2. Free-to-Premium Conversion Rate
+- Definition: monthly percentage of qualified freemium projects upgraded to premium.
+- Target: `>= 8%` monthly.
+
+3. Churn on Premium Licenses
+- Definition: premium licenses not renewed / renewable premium licenses per period.
+- Target: trend down month-over-month after onboarding improvements.
+
+## KPI Measurement Notes
+
+- Emit activation, refresh, revocation, and quota events from control-plane API.
+- Emit runtime cache/health/render diagnostics from engine.
+- Maintain baseline before major rollout changes for valid KPI deltas.
+
+## Out-of-Scope Before MVP
+
+- SSO/social login
+- Multi-region control plane
+- Offline activation
+- Advanced anti-tamper
+- Full billing automation
+- Non-essential UI polish

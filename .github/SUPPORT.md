@@ -11,7 +11,8 @@
 For faster support, include:
 
 - Environment (`local`, `staging`, `production`)
-- Relevant config snippet (without secrets)
+- Relevant config snippet (without secrets), including engine env vars
+- Activation request/response details (status code and error body)
 - Request/response headers (especially `x-spiderbridge-*`)
 - Logs or screenshots
 - Expected vs actual behavior

@@ -22,7 +22,7 @@ body:
       label: Steps to reproduce
       description: Include exact steps, request samples, and relevant config.
       placeholder: |
-        1. Configure middleware with Redis
+        1. Configure middleware with MongoDB or Supabase cache backend
         2. Send request with user-agent Googlebot
         3. Observe response headers on second request
     validations:

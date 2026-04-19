@@ -11,6 +11,16 @@ Core business value:
 - Better crawl visibility for AI agents that do not execute JavaScript.
 - Lower migration pressure for legacy client-side-only applications.
 
+## Infrastructure Direction (No Redis)
+
+The project does not require Redis for MVP.  
+Caching and usage metering are backed by a datastore adapter using:
+
+- MongoDB (recommended MVP default).
+- Supabase Postgres (supported alternative).
+
+For strict cost control, prioritize self-hosted open-source deployments to keep infrastructure free of mandatory paid dependencies.
+
 ## Business Model (SaaS)
 
 SEO-Spider-Bridge is positioned as a SaaS product with two tiers:

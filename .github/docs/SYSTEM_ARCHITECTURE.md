@@ -6,11 +6,11 @@
 2. Middleware authenticates tenant context using project key and host mapping.
 3. Middleware inspects request metadata (user-agent, method, path, content type).
 4. If requester is human, request is passed through to origin SPA unchanged.
-5. If requester is bot/AI crawler, middleware attempts cache lookup in Redis.
+5. If requester is bot/AI crawler, middleware attempts cache lookup in the cache datastore.
 6. On cache hit, middleware returns cached rendered payload (HTML or Markdown).
 7. On cache miss, middleware checks plan quota and calls Renderer API.
 8. Renderer returns serialized output and metadata.
-9. Middleware stores output in Redis with TTL, records usage counters, then returns rendered output to crawler.
+9. Middleware stores output in cache datastore with TTL semantics, records usage counters, then returns rendered output to crawler.
 
 ## Bot Detection Strategy
 
@@ -46,7 +46,18 @@ MVP safeguards:
 - Max concurrent render jobs to protect service latency.
 - Standardized error surface for timeout, blocked URL, and renderer failure.
 
-## Redis Caching and Invalidation Model
+## Cache Storage and Invalidation Model
+
+Redis is not required.  
+MVP supports a cache datastore adapter with these backends:
+
+- MongoDB (recommended default for MVP).
+- Supabase Postgres.
+
+Free-forever note:
+
+- Managed free tiers can change over time.
+- For strict "100% free forever," use self-hosted MongoDB Community Edition or self-hosted Postgres/Supabase stack.
 
 ### Cache Key
 
@@ -68,6 +79,20 @@ MVP safeguards:
 - Active invalidation via webhook endpoint:
   - Purge by exact URL.
   - Purge by host + path prefix (limited scope).
+
+### Backend Profile: MongoDB
+
+- Collection: `render_cache`.
+- Key field: `cacheKey` (unique index).
+- TTL field: `expiresAt` (TTL index).
+- Value fields: `payload`, `format`, `renderedAt`, `renderMs`, `contentType`, `sourceUrl`.
+
+### Backend Profile: Supabase (Postgres)
+
+- Table: `render_cache`.
+- Key columns: `cache_key` (primary key), `expires_at` (indexed), `payload`.
+- Purge strategy: scheduled deletion job on expired rows.
+- Value columns: `format`, `rendered_at`, `render_ms`, `content_type`, `source_url`.
 
 Freemium/Premium behavior:
 
@@ -191,7 +216,7 @@ Field requirements:
   - bot detection rules,
   - project identity and API key,
   - plan tier and quota policy,
-  - Redis endpoint,
+  - cache datastore config (`mongodb` or `supabase`),
   - renderer service URL,
   - cache policy,
   - allow/deny host policy.
@@ -201,9 +226,9 @@ Field requirements:
 - If request is human:
   - Forward to origin SPA unchanged.
 - If request is bot/AI:
-  - Attempt Redis lookup.
+  - Attempt cache datastore lookup.
   - On hit: return cached rendered payload with `200`.
-  - On miss: validate plan entitlement and call `POST /render`, store response in Redis, return rendered payload with `200`.
+  - On miss: validate plan entitlement and call `POST /render`, store response in datastore, return rendered payload with `200`.
   - On renderer error:
     - If stale cache exists: return stale payload with warning header.
     - Else: pass through to origin and annotate response with failure header for observability.

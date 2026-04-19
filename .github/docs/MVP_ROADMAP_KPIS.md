@@ -25,7 +25,7 @@
 
 - Middleware integration snippets for Express.js, Nginx, and Apache.
 - Deterministic bot detection module.
-- Redis cache read/write and TTL behavior.
+- Datastore-backed cache read/write and TTL behavior (MongoDB or Supabase).
 - Plan-aware entitlement checks for output mode and invalidation capabilities.
 
 ### Acceptance Criteria

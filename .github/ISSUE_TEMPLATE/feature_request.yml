@@ -1,0 +1,55 @@
+name: Feature request
+description: Propose a new capability or improvement.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea. Please describe the problem and desired outcome clearly.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What user or business problem are we solving?
+      placeholder: Freemium users cannot understand when they are close to quota limits.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe expected behavior and user flow.
+      placeholder: Add usage warning headers and dashboard threshold alerts.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: List any alternatives or tradeoffs.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Primary area
+      options:
+        - Middleware
+        - Renderer API
+        - Cache and invalidation
+        - Dashboard and analytics
+        - Billing and plan management
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How will we know this is complete?
+      placeholder: |
+        - Users can see quota usage in dashboard
+        - Alert appears at 80% and 95%
+        - Events emitted for threshold crossings
+    validations:
+      required: true

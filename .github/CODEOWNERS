@@ -1,0 +1,10 @@
+# CODEOWNERS
+#
+# Add real GitHub usernames or teams before enabling branch protections.
+# Example:
+# * @your-github-username
+
+# Suggested starter rules:
+# .github/docs/ @your-github-username
+# .github/*.md @your-github-username
+# * @your-github-username

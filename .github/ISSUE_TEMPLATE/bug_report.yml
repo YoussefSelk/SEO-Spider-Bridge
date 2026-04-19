@@ -1,0 +1,72 @@
+name: Bug report
+description: Report a defect that impacts expected behavior.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this issue. Please provide enough detail for us to reproduce and fix it quickly.
+  - type: input
+    id: summary
+    attributes:
+      label: Short summary
+      description: One-sentence description of the bug.
+      placeholder: Bot traffic intermittently bypasses cache for identical URLs.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include exact steps, request samples, and relevant config.
+      placeholder: |
+        1. Configure middleware with Redis
+        2. Send request with user-agent Googlebot
+        3. Observe response headers on second request
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: Second request should return x-spiderbridge-cache: hit.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: Second request returns x-spiderbridge-cache: miss and triggers render.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Describe user/business impact and severity.
+      placeholder: Causes bot TTFB regressions above SLA.
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Local
+        - Staging
+        - Production
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: Branch, tag, or commit hash if known.
+      placeholder: main@abc1234
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and screenshots
+      description: Paste any relevant logs, traces, or screenshots.

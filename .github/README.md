@@ -17,6 +17,14 @@ The goal is to give engineers one place to answer:
 - [`docs/SYSTEM_ARCHITECTURE.md`](docs/SYSTEM_ARCHITECTURE.md): End-to-end flow, bot detection, renderer pipeline, cache model, SaaS plan enforcement, edge deployment model, and public interfaces.
 - [`docs/MVP_ROADMAP_KPIS.md`](docs/MVP_ROADMAP_KPIS.md): Phase-by-phase delivery plan, acceptance criteria, technical KPI targets, and SaaS commercial KPI measurement methods.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): Branching, PR quality bar, and documentation update policy.
+- [`PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md): PR structure and quality checklist.
+- [`ISSUE_TEMPLATE/`](ISSUE_TEMPLATE): Bug and feature issue forms.
+- [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md): Collaboration behavior standards.
+- [`SECURITY.md`](SECURITY.md): Vulnerability reporting policy.
+- [`SUPPORT.md`](SUPPORT.md): Support and onboarding guidance.
+- [`CODEOWNERS`](CODEOWNERS): Review ownership rules.
+- [`dependabot.yml`](dependabot.yml): Automated dependency update policy.
+- [`workflows/ci.yml`](workflows/ci.yml): Baseline CI for markdown and Node projects.
 
 ## Update Ownership
 
@@ -33,6 +41,7 @@ When ownership is unclear, default to the maintainer who merges the related PR.
 2. Move to `docs/SYSTEM_ARCHITECTURE.md` before writing implementation code.
 3. Use `docs/MVP_ROADMAP_KPIS.md` to plan sprint deliverables and define release gates.
 4. Follow `CONTRIBUTING.md` for branch and PR expectations.
+5. Use issue/PR templates so triage and reviews stay consistent from day one.
 
 ## Traceability Map (Topic.md -> Docs)
 

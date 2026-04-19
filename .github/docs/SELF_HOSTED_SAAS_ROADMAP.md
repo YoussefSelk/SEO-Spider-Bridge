@@ -365,6 +365,17 @@ Done when:
 15. Admin activation views
 16. Docs and install guide
 
+## Step-by-Step Delivery Policy
+
+- Build one thin vertical slice at a time.
+- Each slice must be shippable and testable on its own.
+- Do not start the next slice until the current one has:
+  - passing checks/tests for that scope,
+  - docs updated,
+  - a short demo or verification note.
+- Prefer boring, explicit implementations over clever shortcuts.
+- Time is not a constraint; correctness and maintainability are.
+
 ## Out of Scope Before MVP
 
 - Social login / SSO
@@ -376,23 +387,31 @@ Done when:
 - Plugin marketplace
 - Fine-grained enterprise permission matrix
 
-## First 4-Week Execution Plan
+## Suggested 12-Month Pace (Slow and Steady)
 
-### Week 1
+### Months 1-3: Foundation + Auth
 
-- Monorepo, web, API, DB, Prisma baseline
+- Monorepo setup, API/web shells, Prisma + Postgres
+- Core auth/session flows
+- First protected dashboard route
 
-### Week 2
+### Months 4-6: Licensing Core
 
-- Auth, sessions, protected dashboard, org/project models
+- Plans, licenses, organizations, projects
+- Admin license issue/revoke flow
+- Audit logs for auth/license actions
 
-### Week 3
+### Months 7-9: Engine + Activation
 
-- License issuance, activation endpoint, engine skeleton, entitlement verification
+- Engine skeleton, config, health endpoint
+- Activation API + signed entitlement verification
+- Basic local entitlement cache
 
-### Week 4
+### Months 10-12: Hardening + Onboarding
 
-- Docker packaging, grace mode, admin tools, docs, full end-to-end onboarding test
+- Docker packaging and revalidation/grace logic
+- Admin observability pages
+- Install docs and full end-to-end onboarding validation
 
 ## Final Stack Summary
 

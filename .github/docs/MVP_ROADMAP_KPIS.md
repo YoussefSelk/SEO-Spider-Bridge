@@ -4,6 +4,13 @@
 
 This roadmap follows the self-hosted licensed-engine strategy in `SELF_HOSTED_SAAS_ROADMAP.md`.
 
+## Working Style (Mandatory)
+
+- Deliver in thin slices only (one meaningful behavior per PR).
+- Keep parallel work limited; finish one slice before starting another.
+- Do not optimize for speed; optimize for correctness and clarity.
+- A slice is complete only when code, tests, and docs for that slice are all updated.
+
 ## Phase A: Foundation
 
 Deliverables:

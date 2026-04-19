@@ -47,6 +47,11 @@ When ownership is unclear, default to the maintainer who merges the related PR.
 4. Use `docs/MVP_ROADMAP_KPIS.md` for sprint planning and phase gates.
 5. Follow `CONTRIBUTING.md` and templates to keep changes reviewable and docs-synced.
 
+## Delivery Pace
+
+This project follows a deliberate, step-by-step pace.  
+Small, clean, verifiable slices are preferred over rapid broad implementation.
+
 ## Traceability Map
 
 - `Topic.md` original concept and problem framing -> `docs/PROJECT_OVERVIEW.md`

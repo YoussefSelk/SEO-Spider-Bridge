@@ -6,7 +6,8 @@
   - `feat/<short-description>`
   - `fix/<short-description>`
   - `docs/<short-description>`
-- Keep PRs focused on one logical change.
+- Keep PRs focused on one logical thin slice.
+- Avoid "big bang" PRs that mix many subsystems.
 - Include in every PR:
   - What changed.
   - Why it changed.
@@ -47,3 +48,4 @@ A change is done when all are true:
 - Prefer small, reviewable commits.
 - Use imperative commit messages (for example: `Add activation entitlement verification errors`).
 - Do not mix unrelated refactors with MVP feature behavior in the same PR.
+- If a change feels too large for one easy review, split it before merge.

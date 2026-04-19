@@ -15,6 +15,11 @@ Describe what changed and why.
 - [ ] Docs
 - [ ] Test/CI
 
+## Slice Size Check
+
+- [ ] This PR is one thin slice (single primary behavior change)
+- [ ] I intentionally avoided bundling unrelated work
+
 ## Validation
 
 Describe what you ran and the result.
